@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ChooseYourPriest
 {
@@ -10,7 +6,6 @@ namespace ChooseYourPriest
     {
         static void Main(string[] args)
         {
-            
             Console.WriteLine("Введите номер жреца-покровителя для каждой конфедерации через пробел");
             var priestArray = Getconfedirationpriests();
 
@@ -21,15 +16,14 @@ namespace ChooseYourPriest
                 Console.WriteLine("Введены некорректные данные");
                 return;
             }
+
             var request = int.Parse(requestString);
-            
             Console.WriteLine("Введите номер текущего и желаемого жреца по порядку через пробел");
             var newPriestArray = GetCurrentAndFuturePriest(request);
             var result = Change(priestArray, newPriestArray);
             GiveFuturePriest(result);
-           
-
         }
+
         /// <summary>
         /// Заменяет жрецов на новых жрецов
         /// </summary>
@@ -53,6 +47,7 @@ namespace ChooseYourPriest
             }
             return resultArray;
         }
+
         /// <summary>
         /// Получает массив нынешних жрецов
         /// </summary>
@@ -84,6 +79,7 @@ namespace ChooseYourPriest
                 priestArray[i] = int.Parse(priestNumbers[i]);
             return priestArray;
         }
+
         /// <summary>
         /// Получает массив заявки на замену жрецов
         /// </summary>
@@ -112,6 +108,7 @@ namespace ChooseYourPriest
             }
             return newPriestArray;
         }
+
         /// <summary>
         /// Выводит массив будущих жрецов
         /// </summary>
@@ -122,6 +119,7 @@ namespace ChooseYourPriest
             Console.Write("{0}", result[priestMember]);
             Console.ReadLine();
         }
+
         /// <summary>
         /// Проверяет правильность введенных данных
         /// </summary>
