@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "You are in the Army now", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChooseYourPriest", "ChooseYourPriest\ChooseYourPriest.csproj", "{9E8D2D99-1CC1-4606-A955-7E8E8818C2CF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DistanceBetweenDots", "DistanceBetweenDots\DistanceBetweenDots.csproj", "{AC02D27F-9415-49FE-A434-D346D6B93F16}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{9E8D2D99-1CC1-4606-A955-7E8E8818C2CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9E8D2D99-1CC1-4606-A955-7E8E8818C2CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9E8D2D99-1CC1-4606-A955-7E8E8818C2CF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AC02D27F-9415-49FE-A434-D346D6B93F16}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AC02D27F-9415-49FE-A434-D346D6B93F16}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AC02D27F-9415-49FE-A434-D346D6B93F16}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AC02D27F-9415-49FE-A434-D346D6B93F16}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
