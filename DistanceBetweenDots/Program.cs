@@ -22,6 +22,8 @@ namespace DistanceBetweenDots
                 dotsArray[i] = int.Parse(dotsString[0]);
                 dotsArray[i + 1] = int.Parse(dotsString[1]);
             }
+            //сделать 2 массива под координаты х и y отдельно
+            //на этапе вычисления не записывать повторяющиеся вычисления с помощью метода Contains
             var distanceArray = new double[((allDots - 1) * allDots) / 2];
             var t = 0;
             for (var x = 0; x < dotsArray.Length; x = x + 2)
@@ -32,6 +34,7 @@ namespace DistanceBetweenDots
                     t++;
                 }
             }
+            //переделать результаты в возрастающем порядке
             var resultArray = distanceArray.Distinct().ToArray();
             var l = resultArray.Count();
             Console.WriteLine("{0}", l);
