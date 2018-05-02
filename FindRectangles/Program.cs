@@ -19,7 +19,7 @@ namespace FindRectangles
 
             Console.WriteLine("Введите числа через пробел (необходимо соблюдать ранее заданное количество чисел в каждой строке)");
             int[,] coordArray = new int[lines, columns];
-            for (var i=0;i<lines;i++)
+            for (var i = 0; i < lines; i++)
             {
                 var numString = Console.ReadLine();
                 var numStingsArray = numString.Split(' ');
@@ -28,70 +28,77 @@ namespace FindRectangles
                     coordArray[i, j] = int.Parse(numStingsArray[j]);
                 }
             }
-            for (var col=0;col<columns;col++)
+            ReflectArrayHorizontaly(coordArray,columns,lines);
+
+            for (var numberOfRectangle = 1; numberOfRectangle <= range; numberOfRectangle++)
             {
-                for (var row=0;row<lines/2;row++)
+                var x1 = FindCoords(coordArray, 0, 0, columns, lines, numberOfRectangle,true);
+                var y1 = FindCoords(coordArray, 0, 0, lines, columns, numberOfRectangle,false);
+                var x2 = FindCoords(coordArray, columns - 1, lines - 1, -1,-1, numberOfRectangle,true);
+                var y2 = FindCoords(coordArray, lines-1, columns-1, -1, -1, numberOfRectangle,false);
+                Console.WriteLine("{0} {1} {2} {3}", x1, y1, x2+1, y2+1);
+            }
+            Console.ReadLine();
+        }
+        /// <summary>
+        /// Нахождение координат прямоугольников
+        /// </summary>
+        /// <param name="coordArray">Массив прямоугольников</param>
+        /// <param name="startX">Начало вычисления координат по оси Х</param>
+        /// <param name="startY">Начало вычисления координат по оси Y</param>
+        /// <param name="endX">Конец координат по оси Х</param>
+        /// <param name="endY">Конец координат по оси Y</param>
+        /// <param name="numberOfRectangle">Номер прямоугольника</param>
+        /// <param name="isHorizontal">Направление вычисления (по вертикали-true;по горизонтали-false)</param>
+        /// <returns>Координату</returns>
+        static int FindCoords(int[,] coordArray, int startX, int startY, int endX, int endY, int numberOfRectangle, bool isHorizontal)
+        {
+            // coefForwardOrBackward - коеффициент направления вычисления координаты (Forward - 1;Backward - -1)
+            var coefForwardOrBackward = 1;
+            if (startX > endX)
+            {
+                coefForwardOrBackward = -1;
+            }
+            for (var col = startX; col != endX; col = col + coefForwardOrBackward)
+            {
+                for (var row = startY; row != endY; row = row + coefForwardOrBackward)
+                {
+                    if (isHorizontal)
+                    {
+                        if (coordArray[row, col] == numberOfRectangle)
+                        {
+                            return col;
+                        }
+                    }
+                    else
+                    {
+                        if (coordArray[col, row] == numberOfRectangle)
+                        {
+                            return col;
+                        }
+                    } 
+                }
+            }
+            return 0;
+        }
+        /// <summary>
+        /// Функция, меняющая члены  массива
+        /// </summary>
+        /// <param name="coordArray">Массив прямоугольников</param>
+        /// <param name="columns">Столбцы</param>
+        /// <param name="lines">Строки</param>
+        /// <returns>Измененный массив прямоугольников</returns>
+        static void ReflectArrayHorizontaly(int[,] coordArray, int columns, int lines)
+        {
+            for (var col = 0; col < columns; col++)
+            {
+                for (var row = 0; row < lines / 2; row++)
                 {
                     var l = coordArray[row, col];
-                    coordArray[row, col] = coordArray[lines-row-1, col];
-                    coordArray[lines-row-1, col] = l;
+                    coordArray[row, col] = coordArray[lines - row - 1, col];
+                    coordArray[lines - row - 1, col] = l;
                 }
             }
-            for (var r = 1; r <= range;r++)
-            {
-                for (var col = 0; col < columns; col++)
-                {
-                    for (var row=0;row<lines;row++)
-                    {
-                        if (coordArray[row, col] == r)
-                        {
-                            Console.Write("{0} ", col);
-                            col = columns;
-                            break;
-                        }
-                    }
-                }
-
-                for (var row = 0; row < lines; row++)
-                {
-                    for (var col = 0; col < columns; col++)
-                    {
-                        if (coordArray[row, col] == r)
-                        {
-                            Console.Write("{0} ", row);
-                            row = lines;
-                            break;
-                        }
-                    }
-                }
-
-                for (var col=columns-1;col>0;col--)
-                {
-                    for(var row=lines-1;row>0;row--)
-                    {
-                        if (coordArray[row, col]==r)
-                        {
-                            Console.Write ("{0} ",col+1 );
-                            col = -1;
-                            break;
-                        }
-                    }
-                }
-                
-                for(var row=lines-1;row>0;row--)
-                {
-                    for(var col=columns-1;col>0;col--)
-                    {
-                        if(coordArray[row, col] == r)
-                        {
-                            Console.Write("{0} ", row+1);
-                            row = -1;
-                            break;
-                        }
-                    }
-                }
-            }
-            Console.Read();
         }
     }
 }
