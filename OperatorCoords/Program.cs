@@ -29,19 +29,37 @@ namespace OperatorCoords
             var myCoordsArray = myCoordsString.Split(' ');
             var myCoordX = int.Parse(myCoordsArray[0]);
             var myCoordY = int.Parse(myCoordsArray[1]);
-            
 
-            for (var j =0;j<baseStation;j++)
+            var operatorsList = new List<string>();
+            foreach (var k in operatorsAndStationCoords)
             {
-                var range = RangeBetweenPoints(myCoordX, myCoordY, operatorsAndStationCoords[j].Item2, operatorsAndStationCoords[j].Item3);
-                if (operatorsAndStationCoords[j].Item4-range>0)
+                if (!operatorsList.Contains(k.Item1))
                 {
-                    Console.WriteLine("{0} ", operatorsAndStationCoords[j].Item1);
+                    operatorsList.Add(k.Item1);
                 }
-                else
+            }
+            var operatorsAndStations = new List<Tuple<string, int>>();
+
+            foreach (var t in operatorsList)
+            {
+                var supportedStation = 0;
+                foreach (var j in operatorsAndStationCoords)
                 {
-                    Console.WriteLine("{0} ", operatorsAndStationCoords[j].Item1);
+                    if (t == j.Item1)
+                    {
+                        var range = RangeBetweenPoints(myCoordX, myCoordY, j.Item2, j.Item3);
+                        if (j.Item4 - range > 0)
+                        {
+                            supportedStation++;
+                        }
+                    }
                 }
+                operatorsAndStations.Add(Tuple.Create<string, int>(t, supportedStation));
+            }
+            Console.WriteLine("{0}", operatorsAndStations.Count);
+            foreach (var o in operatorsAndStations)
+            {
+                Console.WriteLine("{0} {1}", o.Item1, o.Item2);
             }
             Console.ReadLine();
         }
