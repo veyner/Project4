@@ -27,6 +27,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "The Descent", "The Descent\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarsLanding", "MarsLanding\MarsLanding.csproj", "{ED8BF466-15FC-4A0D-95D1-3B42F8865EDF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "learnClasses", "learnClasses\learnClasses.csproj", "{FB8F0ED5-8FFC-4FE3-888A-E2CAAFBB2B8A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tekken", "Tekken\Tekken.csproj", "{4CCF6249-4CAC-4671-835D-DC3E3FA645C2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -81,6 +85,14 @@ Global
 		{ED8BF466-15FC-4A0D-95D1-3B42F8865EDF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ED8BF466-15FC-4A0D-95D1-3B42F8865EDF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ED8BF466-15FC-4A0D-95D1-3B42F8865EDF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FB8F0ED5-8FFC-4FE3-888A-E2CAAFBB2B8A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FB8F0ED5-8FFC-4FE3-888A-E2CAAFBB2B8A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FB8F0ED5-8FFC-4FE3-888A-E2CAAFBB2B8A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FB8F0ED5-8FFC-4FE3-888A-E2CAAFBB2B8A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4CCF6249-4CAC-4671-835D-DC3E3FA645C2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4CCF6249-4CAC-4671-835D-DC3E3FA645C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4CCF6249-4CAC-4671-835D-DC3E3FA645C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4CCF6249-4CAC-4671-835D-DC3E3FA645C2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
