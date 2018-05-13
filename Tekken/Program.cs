@@ -9,14 +9,17 @@ namespace Tekken
     /// <summary>
     /// описание бойца, нанесения ударов
     /// </summary>
-    class Fighter
+    internal class Fighter
     {
         public int HP { get; set; }
         public bool Block { get; set; }
+        public string Name { get; set; }
+
+        private Random _random;
+
         /// <summary>
         /// конструктор для генерации случайного числа
         /// </summary>
-        private Random _random; 
         public Fighter(Random rnd)
         {
             _random = rnd;
@@ -24,20 +27,24 @@ namespace Tekken
 
         public void LeftPunch(Fighter opponent)
         {
-            MakePunch(opponent,1,5);
+            MakePunch(opponent, 1, 5);
         }
+
         public void RightPunch(Fighter opponent)
         {
             MakePunch(opponent, 2, 5);
         }
+
         public void LegPunch(Fighter opponent)
         {
             MakePunch(opponent, 3, 9);
         }
+
         public void Blocking()
         {
             Block = true;
         }
+
         /// <summary>
         /// функция нанесения удара
         /// </summary>
@@ -50,7 +57,7 @@ namespace Tekken
             int twoDices = _random.Next(2, 13);
             if (twoDices == 12)
             {
-                opponent.HP -= damage+1;
+                opponent.HP -= damage + 1;
             }
             else if (opponent.Block)
             {
@@ -63,11 +70,49 @@ namespace Tekken
         }
     }
 
-    class Program
+    internal class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             Random rnd = new Random();
+            var fighter1 = new Fighter(rnd) { HP = 10, Name = "Bob" };
+            var fighter2 = new Fighter(rnd) { HP = 10, Name = "Paul" };
+            var fighter = fighter2;
+            var opponent = fighter1;
+
+            while (opponent.HP > 0)
+            {
+                var i = fighter;
+                fighter = opponent;
+                opponent = i;
+
+                Console.Write("Выберите действие и введите соответствующую цифру\n Левый удар - 1\n Правый удар - 2\n Удар ногой - 3\n Блок - 4\n");
+                var punchOrBlock = int.Parse(Console.ReadLine());
+
+                switch (punchOrBlock)
+                {
+                    case 1:
+                        fighter.LeftPunch(opponent);
+                        break;
+
+                    case 2:
+                        fighter.RightPunch(opponent);
+                        break;
+
+                    case 3:
+                        fighter.LegPunch(opponent);
+                        break;
+
+                    case 4:
+                        fighter.Blocking();
+                        break;
+                }
+
+                Console.WriteLine("{0} - здоровье {1}\n{2} - здоровье {3}", fighter1.HP, fighter1.Name, fighter2.HP, fighter2.Name);
+            }
+
+            Console.WriteLine("{0} Win", fighter.Name);
+            Console.ReadLine();
         }
     }
 }
