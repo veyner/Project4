@@ -31,6 +31,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "learnClasses", "learnClasse
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tekken", "Tekken\Tekken.csproj", "{4CCF6249-4CAC-4671-835D-DC3E3FA645C2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dodger", "Dodger\Dodger.csproj", "{C9884A4D-51D4-4A55-831B-395C339FBBED}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -93,6 +95,10 @@ Global
 		{4CCF6249-4CAC-4671-835D-DC3E3FA645C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4CCF6249-4CAC-4671-835D-DC3E3FA645C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4CCF6249-4CAC-4671-835D-DC3E3FA645C2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C9884A4D-51D4-4A55-831B-395C339FBBED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C9884A4D-51D4-4A55-831B-395C339FBBED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C9884A4D-51D4-4A55-831B-395C339FBBED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C9884A4D-51D4-4A55-831B-395C339FBBED}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
