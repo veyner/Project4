@@ -7,15 +7,20 @@ namespace ConsoleRender
     /// </summary>
     internal class Game
     {
-        private int maxWidth, maxHeight;
+        private int _maxWidth, _maxHeight;
+        private Random _random;
 
         public Game(int width, int height)
         {
-            maxWidth = width;
-            maxHeight = height;
+            _maxWidth = width;
+            _maxHeight = height;
+            _random = new Random();
+            opponent.Position.X = _maxWidth - 1;
+            opponent.Position.Y = _random.Next(1, _maxHeight);
         }
 
         private int _playerX = 1, _playerY = 1;
+        private GameObject opponent = new GameObject();
 
         /// <summary>
         /// Функция отрисовки экрана (вызывает 5 раз в секунду)
@@ -37,11 +42,15 @@ namespace ConsoleRender
                 screen.SetPixel(i, screen.Height - 1, '-');
             }
             screen.SetPixel(0, 0, '┌');
-            screen.SetPixel(maxWidth - 1, 0, '┐');
-            screen.SetPixel(0, maxHeight - 1, '└');
-            screen.SetPixel(maxWidth - 1, maxHeight - 1, '┘');
+            screen.SetPixel(_maxWidth - 1, 0, '┐');
+            screen.SetPixel(0, _maxHeight - 1, '└');
+            screen.SetPixel(_maxWidth - 1, _maxHeight - 1, '┘');
             // Рисуем игрока
             screen.SetPixel(_playerX, _playerY, '■');
+
+            opponent.Position.X--;
+
+            screen.SetPixel(opponent.Position.X, opponent.Position.Y, '@');
         }
 
         /// <summary>
@@ -55,7 +64,7 @@ namespace ConsoleRender
             {
                 // ...стрелки вниз...
                 case ConsoleKey.DownArrow:
-                    if (_playerY + 2 == maxHeight)
+                    if (_playerY + 2 == _maxHeight)
                     {
                         break;
                     }
@@ -71,7 +80,7 @@ namespace ConsoleRender
                     break;
 
                 case ConsoleKey.RightArrow:
-                    if (_playerX + 2 == maxWidth)
+                    if (_playerX + 2 == _maxWidth)
                     {
                         break;
                     }
