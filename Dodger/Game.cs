@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ConsoleRender
+namespace Dodger
 {
     /// <summary>
     ///  Управляет жизненным циклом игры

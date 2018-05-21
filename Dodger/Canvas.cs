@@ -1,13 +1,12 @@
 ﻿using System;
 
-namespace ConsoleRender
+namespace Dodger
 {
     /// <summary>
     /// Экран
     /// </summary>
     internal class Screen
     {
-
         public Screen(int width, int height)
         {
             Width = width;
@@ -50,9 +49,10 @@ namespace ConsoleRender
         /// Высота полотна экрана
         /// </summary>
         public int Height { get; set; }
+
         public Pixel[][] Data { get; set; }
 
-        #endregion
+        #endregion Properties
     }
 
     internal class Pixel

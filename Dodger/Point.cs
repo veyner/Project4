@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ConsoleRender
+namespace Dodger
 {
     internal class Point
     {
@@ -16,6 +16,12 @@ namespace ConsoleRender
         {
             X = x;
             Y = y;
+        }
+
+        public void Move(Vector speed)
+        {
+            X += speed.X;
+            Y += speed.Y;
         }
 
         public int X { get; set; }
