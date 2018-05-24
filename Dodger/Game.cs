@@ -9,18 +9,56 @@ namespace Dodger
     {
         private int _maxWidth, _maxHeight;
         private Random _random;
+        private GameObject[] opponents = new GameObject[5];
+        private int _playerX = 1, _playerY = 1;
 
         public Game(int width, int height)
         {
             _maxWidth = width;
             _maxHeight = height;
             _random = new Random();
-            opponent.Position.X = _maxWidth - 1;
-            opponent.Position.Y = _random.Next(1, _maxHeight);
+            for (int i = 0; i < 5; i++)
+            {
+                opponents[i] = CreateOpponent();
+            }
         }
 
-        private int _playerX = 1, _playerY = 1;
-        private GameObject opponent = new GameObject();
+        private GameObject CreateOpponent()
+        {
+            GameObject opponent = new GameObject();
+            int i = _random.Next(0, 4);
+            if (i == 0)
+            {
+                opponent.Position.X = _maxWidth - 2;
+                opponent.Position.Y = _random.Next(1, _maxHeight);
+                opponent.Speed.X = -1;
+            }
+            else if (i == 1)
+            {
+                opponent.Position.X = 1;
+                opponent.Position.Y = _random.Next(1, _maxHeight);
+                opponent.Speed.X = 1;
+            }
+            else if (i == 2)
+            {
+                opponent.Position.X = _random.Next(1, _maxWidth);
+                opponent.Position.Y = 1;
+                opponent.Speed.Y = 1;
+            }
+            else if (i == 3)
+            {
+                opponent.Position.X = _random.Next(1, _maxWidth);
+                opponent.Position.Y = _maxHeight - 2;
+                opponent.Speed.Y = -1;
+            }
+            return opponent;
+        }
+
+        private bool CheckOpp(GameObject gameObject)
+        {
+            return gameObject.Position.X <= 1 || gameObject.Position.X >= _maxWidth - 2 ||
+                gameObject.Position.Y <= 1 || gameObject.Position.Y >= _maxHeight - 2;
+        }
 
         /// <summary>
         /// Функция отрисовки экрана (вызывает 5 раз в секунду)
@@ -48,9 +86,15 @@ namespace Dodger
             // Рисуем игрока
             screen.SetPixel(_playerX, _playerY, '■');
 
-            opponent.Position.X--;
-
-            screen.SetPixel(opponent.Position.X, opponent.Position.Y, '@');
+            for (int i = 0; i < opponents.Length; i++)
+            {
+                opponents[i].Position.Move(opponents[i].Speed);
+                if (CheckOpp(opponents[i]))
+                {
+                    opponents[i] = CreateOpponent();
+                }
+                screen.SetPixel(opponents[i].Position.X, opponents[i].Position.Y, '@');
+            }
         }
 
         /// <summary>

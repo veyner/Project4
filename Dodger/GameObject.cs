@@ -11,8 +11,10 @@ namespace Dodger
         public GameObject()
         {
             Position = new Point();
+            Speed = new Vector();
         }
 
         public Point Position { get; set; }
+        public Vector Speed { get; set; }
     }
 }
