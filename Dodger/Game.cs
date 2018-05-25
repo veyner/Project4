@@ -10,7 +10,8 @@ namespace Dodger
         private int _maxWidth, _maxHeight;
         private Random _random;
         private GameObject[] opponents = new GameObject[5];
-        private int _playerX = 1, _playerY = 1;
+        private Point player = new Point();
+        private bool _isGameOver;
 
         public Game(int width, int height)
         {
@@ -21,6 +22,8 @@ namespace Dodger
             {
                 opponents[i] = CreateOpponent();
             }
+            player.X = _maxWidth / 2;
+            player.Y = _maxHeight / 2;
         }
 
         private GameObject CreateOpponent()
@@ -66,6 +69,45 @@ namespace Dodger
         /// <param name="screen"></param>
         public void Draw(Screen screen)
         {
+            DrawBorder(screen);
+            if (!_isGameOver)
+            {
+                // Рисуем игрока
+                screen.SetPixel(player.X, player.Y, '■');
+
+                for (int i = 0; i < opponents.Length; i++)
+                {
+                    opponents[i].Position.Move(opponents[i].Speed);
+                    if (CheckOpp(opponents[i]))
+                    {
+                        opponents[i] = CreateOpponent();
+                    }
+                    screen.SetPixel(opponents[i].Position.X, opponents[i].Position.Y, '@');
+                    if (opponents[i].Position.Equals(player))
+                    {
+                        _isGameOver = true;
+                    }
+                }
+            }
+            else
+            {
+                GameOver(screen);
+            }
+        }
+
+        private void GameOver(Screen screen)
+        {
+            string gameOver = "GAME OVER";
+            var screenCenter = new Point(_maxWidth / 2, _maxHeight / 2);
+            var stringLength = gameOver.Length;
+            for (int i = 0; i < stringLength; i++)
+            {
+                screen.SetPixel(screenCenter.X - stringLength / 2 + i, screenCenter.Y, gameOver[i]);
+            }
+        }
+
+        private void DrawBorder(Screen screen)
+        {
             // Рисуем вертикальные границы экрана
             for (int i = 0; i < screen.Height; i++)
             {
@@ -83,18 +125,6 @@ namespace Dodger
             screen.SetPixel(_maxWidth - 1, 0, '┐');
             screen.SetPixel(0, _maxHeight - 1, '└');
             screen.SetPixel(_maxWidth - 1, _maxHeight - 1, '┘');
-            // Рисуем игрока
-            screen.SetPixel(_playerX, _playerY, '■');
-
-            for (int i = 0; i < opponents.Length; i++)
-            {
-                opponents[i].Position.Move(opponents[i].Speed);
-                if (CheckOpp(opponents[i]))
-                {
-                    opponents[i] = CreateOpponent();
-                }
-                screen.SetPixel(opponents[i].Position.X, opponents[i].Position.Y, '@');
-            }
         }
 
         /// <summary>
@@ -103,41 +133,44 @@ namespace Dodger
         /// <param name="key"></param>
         public void KeyDown(ConsoleKey key)
         {
-            // При нажатии...
-            switch (key)
+            if (!_isGameOver)
             {
-                // ...стрелки вниз...
-                case ConsoleKey.DownArrow:
-                    if (_playerY + 2 == _maxHeight)
-                    {
+                // При нажатии...
+                switch (key)
+                {
+                    // ...стрелки вниз...
+                    case ConsoleKey.DownArrow:
+                        if (player.Y + 2 == _maxHeight)
+                        {
+                            break;
+                        }
+                        player.Y++; // ...сдвигаем игрока вниз
                         break;
-                    }
-                    _playerY++; // ...сдвигаем игрока вниз
-                    break;
 
-                case ConsoleKey.UpArrow:
-                    if (_playerY - 1 == 0)
-                    {
+                    case ConsoleKey.UpArrow:
+                        if (player.Y - 1 == 0)
+                        {
+                            break;
+                        }
+                        player.Y--;
                         break;
-                    }
-                    _playerY--;
-                    break;
 
-                case ConsoleKey.RightArrow:
-                    if (_playerX + 2 == _maxWidth)
-                    {
+                    case ConsoleKey.RightArrow:
+                        if (player.X + 2 == _maxWidth)
+                        {
+                            break;
+                        }
+                        player.X++;
                         break;
-                    }
-                    _playerX++;
-                    break;
 
-                case ConsoleKey.LeftArrow:
-                    if (_playerX - 1 == 0)
-                    {
+                    case ConsoleKey.LeftArrow:
+                        if (player.X - 1 == 0)
+                        {
+                            break;
+                        }
+                        player.X--;
                         break;
-                    }
-                    _playerX--;
-                    break;
+                }
             }
         }
     }

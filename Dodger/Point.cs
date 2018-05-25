@@ -24,6 +24,17 @@ namespace Dodger
             Y += speed.Y;
         }
 
+        public override bool Equals(object obj)
+        {
+            var point = (Point)obj;
+            return point.X == X && point.Y == Y;
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+
         public int X { get; set; }
         public int Y { get; set; }
     }
