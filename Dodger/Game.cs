@@ -18,43 +18,18 @@ namespace Dodger
             _maxWidth = width;
             _maxHeight = height;
             _random = new Random();
+            StartGame();
+        }
+
+        private void StartGame()
+        {
             for (int i = 0; i < 5; i++)
             {
-                opponents[i] = CreateOpponent();
+                opponents[i] = GameObject.CreateOpponent(_random, _maxWidth, _maxHeight);
             }
             player.X = _maxWidth / 2;
             player.Y = _maxHeight / 2;
-        }
-
-        private GameObject CreateOpponent()
-        {
-            GameObject opponent = new GameObject();
-            int i = _random.Next(0, 4);
-            if (i == 0)
-            {
-                opponent.Position.X = _maxWidth - 2;
-                opponent.Position.Y = _random.Next(1, _maxHeight);
-                opponent.Speed.X = -1;
-            }
-            else if (i == 1)
-            {
-                opponent.Position.X = 1;
-                opponent.Position.Y = _random.Next(1, _maxHeight);
-                opponent.Speed.X = 1;
-            }
-            else if (i == 2)
-            {
-                opponent.Position.X = _random.Next(1, _maxWidth);
-                opponent.Position.Y = 1;
-                opponent.Speed.Y = 1;
-            }
-            else if (i == 3)
-            {
-                opponent.Position.X = _random.Next(1, _maxWidth);
-                opponent.Position.Y = _maxHeight - 2;
-                opponent.Speed.Y = -1;
-            }
-            return opponent;
+            _isGameOver = false;
         }
 
         private bool CheckOpp(GameObject gameObject)
@@ -80,8 +55,9 @@ namespace Dodger
                     opponents[i].Position.Move(opponents[i].Speed);
                     if (CheckOpp(opponents[i]))
                     {
-                        opponents[i] = CreateOpponent();
+                        opponents[i] = GameObject.CreateOpponent(_random, _maxWidth, _maxHeight);
                     }
+                    // Рисуем оппонента
                     screen.SetPixel(opponents[i].Position.X, opponents[i].Position.Y, '@');
                     if (opponents[i].Position.Equals(player))
                     {
@@ -95,15 +71,18 @@ namespace Dodger
             }
         }
 
+        /// <summary>
+        /// прорисовка "Завершения игры и рестарта"
+        /// </summary>
+        /// <param name="screen"></param>
         private void GameOver(Screen screen)
         {
             string gameOver = "GAME OVER";
-            var screenCenter = new Point(_maxWidth / 2, _maxHeight / 2);
-            var stringLength = gameOver.Length;
-            for (int i = 0; i < stringLength; i++)
-            {
-                screen.SetPixel(screenCenter.X - stringLength / 2 + i, screenCenter.Y, gameOver[i]);
-            }
+            var screenCenter = new Point((_maxWidth - gameOver.Length) / 2, _maxHeight / 2);
+            screen.DrawString(screenCenter, gameOver);
+            string restart = "Press Space to restart";
+            var startPoint = new Point((_maxWidth - restart.Length) / 2, _maxHeight / 2 + 1);
+            screen.DrawString(startPoint, restart);
         }
 
         private void DrawBorder(Screen screen)
@@ -170,6 +149,20 @@ namespace Dodger
                         }
                         player.X--;
                         break;
+                }
+                for (int i = 0; i < opponents.Length; i++)
+                {
+                    if (opponents[i].Position.Equals(player))
+                    {
+                        _isGameOver = true;
+                    }
+                }
+            }
+            else
+            {
+                if (ConsoleKey.Spacebar == key)
+                {
+                    StartGame();
                 }
             }
         }

@@ -38,6 +38,15 @@ namespace Dodger
             };
         }
 
+        public void DrawString(Point point, string randomString)
+        {
+            var stringLength = randomString.Length;
+            for (int i = 0; i < stringLength; i++)
+            {
+                SetPixel(point.X + i, point.Y, randomString[i]);
+            }
+        }
+
         #region Properties
 
         /// <summary>
