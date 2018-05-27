@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Dodger
 {
@@ -9,9 +10,10 @@ namespace Dodger
     {
         private int _maxWidth, _maxHeight;
         private Random _random;
-        private GameObject[] opponents = new GameObject[5];
-        private Point player = new Point();
+        private List<GameObject> _opponents = new List<GameObject>();
+        private Point _player = new Point();
         private bool _isGameOver;
+        private int _result = 0;
 
         public Game(int width, int height)
         {
@@ -23,12 +25,13 @@ namespace Dodger
 
         private void StartGame()
         {
+            _result = 0;
             for (int i = 0; i < 5; i++)
             {
-                opponents[i] = GameObject.CreateOpponent(_random, _maxWidth, _maxHeight);
+                _opponents.Add(GameObject.CreateOpponent(_random, _maxWidth, _maxHeight));
             }
-            player.X = _maxWidth / 2;
-            player.Y = _maxHeight / 2;
+            _player.X = _maxWidth / 2;
+            _player.Y = _maxHeight / 2;
             _isGameOver = false;
         }
 
@@ -48,21 +51,26 @@ namespace Dodger
             if (!_isGameOver)
             {
                 // Рисуем игрока
-                screen.SetPixel(player.X, player.Y, '■');
+                screen.SetPixel(_player.X, _player.Y, '■');
 
-                for (int i = 0; i < opponents.Length; i++)
+                for (int i = 0; i < _opponents.Count; i++)
                 {
-                    opponents[i].Position.Move(opponents[i].Speed);
-                    if (CheckOpp(opponents[i]))
+                    _opponents[i].Position.Move(_opponents[i].Speed);
+                    if (CheckOpp(_opponents[i]))
                     {
-                        opponents[i] = GameObject.CreateOpponent(_random, _maxWidth, _maxHeight);
+                        _opponents[i] = GameObject.CreateOpponent(_random, _maxWidth, _maxHeight);
                     }
                     // Рисуем оппонента
-                    screen.SetPixel(opponents[i].Position.X, opponents[i].Position.Y, '@');
-                    if (opponents[i].Position.Equals(player))
+                    screen.SetPixel(_opponents[i].Position.X, _opponents[i].Position.Y, '@');
+                    if (_opponents[i].Position.Equals(_player))
                     {
                         _isGameOver = true;
                     }
+                }
+                _result++;
+                if (_result % 30 == 0)
+                {
+                    _opponents.Add(GameObject.CreateOpponent(_random, _maxWidth, _maxHeight));
                 }
             }
             else
@@ -78,10 +86,13 @@ namespace Dodger
         private void GameOver(Screen screen)
         {
             string gameOver = "GAME OVER";
-            var screenCenter = new Point((_maxWidth - gameOver.Length) / 2, _maxHeight / 2);
+            var screenCenter = new Point((_maxWidth - gameOver.Length) / 2, _maxHeight / 2 - 1);
             screen.DrawString(screenCenter, gameOver);
+            string lastResult = "Your score is " + _result;
+            var resultPoint = new Point((_maxWidth - lastResult.Length) / 2, _maxHeight / 2);
+            screen.DrawString(resultPoint, lastResult);
             string restart = "Press Space to restart";
-            var startPoint = new Point((_maxWidth - restart.Length) / 2, _maxHeight / 2 + 1);
+            var startPoint = new Point((_maxWidth - restart.Length) / 2, _maxHeight / 2 + 2);
             screen.DrawString(startPoint, restart);
         }
 
@@ -119,40 +130,40 @@ namespace Dodger
                 {
                     // ...стрелки вниз...
                     case ConsoleKey.DownArrow:
-                        if (player.Y + 2 == _maxHeight)
+                        if (_player.Y + 2 == _maxHeight)
                         {
                             break;
                         }
-                        player.Y++; // ...сдвигаем игрока вниз
+                        _player.Y++; // ...сдвигаем игрока вниз
                         break;
 
                     case ConsoleKey.UpArrow:
-                        if (player.Y - 1 == 0)
+                        if (_player.Y - 1 == 0)
                         {
                             break;
                         }
-                        player.Y--;
+                        _player.Y--;
                         break;
 
                     case ConsoleKey.RightArrow:
-                        if (player.X + 2 == _maxWidth)
+                        if (_player.X + 2 == _maxWidth)
                         {
                             break;
                         }
-                        player.X++;
+                        _player.X++;
                         break;
 
                     case ConsoleKey.LeftArrow:
-                        if (player.X - 1 == 0)
+                        if (_player.X - 1 == 0)
                         {
                             break;
                         }
-                        player.X--;
+                        _player.X--;
                         break;
                 }
-                for (int i = 0; i < opponents.Length; i++)
+                for (int i = 0; i < _opponents.Count; i++)
                 {
-                    if (opponents[i].Position.Equals(player))
+                    if (_opponents[i].Position.Equals(_player))
                     {
                         _isGameOver = true;
                     }
