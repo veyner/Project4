@@ -33,6 +33,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tekken", "Tekken\Tekken.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dodger", "Dodger\Dodger.csproj", "{C9884A4D-51D4-4A55-831B-395C339FBBED}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BullNCow", "BullNCow\BullNCow.csproj", "{D19BF1AE-EAF8-4A8D-AA0B-B8B557AB9DF9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -99,6 +101,10 @@ Global
 		{C9884A4D-51D4-4A55-831B-395C339FBBED}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C9884A4D-51D4-4A55-831B-395C339FBBED}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C9884A4D-51D4-4A55-831B-395C339FBBED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D19BF1AE-EAF8-4A8D-AA0B-B8B557AB9DF9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D19BF1AE-EAF8-4A8D-AA0B-B8B557AB9DF9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D19BF1AE-EAF8-4A8D-AA0B-B8B557AB9DF9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D19BF1AE-EAF8-4A8D-AA0B-B8B557AB9DF9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
