@@ -35,6 +35,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dodger", "Dodger\Dodger.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BullNCow", "BullNCow\BullNCow.csproj", "{D19BF1AE-EAF8-4A8D-AA0B-B8B557AB9DF9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TextQuest", "TextQuest\TextQuest.csproj", "{4384E05C-9CA0-4B7D-9E35-E5DEB828DA76}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -105,6 +107,10 @@ Global
 		{D19BF1AE-EAF8-4A8D-AA0B-B8B557AB9DF9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D19BF1AE-EAF8-4A8D-AA0B-B8B557AB9DF9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D19BF1AE-EAF8-4A8D-AA0B-B8B557AB9DF9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4384E05C-9CA0-4B7D-9E35-E5DEB828DA76}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4384E05C-9CA0-4B7D-9E35-E5DEB828DA76}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4384E05C-9CA0-4B7D-9E35-E5DEB828DA76}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4384E05C-9CA0-4B7D-9E35-E5DEB828DA76}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
