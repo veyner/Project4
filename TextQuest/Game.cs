@@ -8,7 +8,7 @@ namespace TextQuest
 {
     internal class Game
     {
-        public void GameLoop(Arc arc, Screen screen, SelectionOptions selectionOption)
+        public void GameLoop()
         {
             var arcs = new Arc[] {
                 new Arc
@@ -19,6 +19,7 @@ namespace TextQuest
                         {
                             Number=0,
                             Text="начало",
+                            SelectionOption = new SelectionOptions[0]
                         },
                         new Screen
                         {
@@ -52,10 +53,11 @@ namespace TextQuest
                         {
                             Number=0,
                             Text="основная часть",
+                            SelectionOption = new SelectionOptions[0]
                         },
                         new Screen
                         {
-                            Number=0,
+                            Number=1,
                             Text="вопрос",
                             SelectionOption = new SelectionOptions[]{
                                 new SelectionOptions
@@ -84,6 +86,31 @@ namespace TextQuest
                     }
                 }
             };
+            var CurrentArc = arcs[0];
+            CurrentArc.HasNextScreen = true;
+            while (CurrentArc.HasNextScreen == true)
+            {
+                if (CurrentArc.Screens.Length == 1)
+                {
+                    CurrentArc.HasNextScreen = false;
+                }
+                for (int i = 0; i < CurrentArc.Screens.Length; i++)
+                {
+                    Console.WriteLine("{0}", CurrentArc.Screens[i].Text);
+                    Console.ReadLine();
+                    if (CurrentArc.Screens[i].SelectionOption.Length != 0)
+                    {
+                        for (int j = 0; j < CurrentArc.Screens[i].SelectionOption.Length; j++)
+                        {
+                            Console.WriteLine("{0}", CurrentArc.Screens[i].SelectionOption[j].Text);
+                        }
+                        var choice = int.Parse(Console.ReadLine());
+                        CurrentArc = arcs[CurrentArc.Screens[i].SelectionOption[choice].Destination];
+                    }
+                }
+            }
+            Console.WriteLine("{0}", CurrentArc.Screens[0].Text);
+            Console.ReadLine();
         }
     }
 }

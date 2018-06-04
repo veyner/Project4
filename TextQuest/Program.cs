@@ -10,6 +10,7 @@ namespace TextQuest
     {
         private static void Main(string[] args)
         {
+            new Game().GameLoop();
         }
     }
 }

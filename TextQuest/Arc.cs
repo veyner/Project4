@@ -10,5 +10,7 @@ namespace TextQuest
     {
         public Screen[] Screens { get; set; }
         public int ID { get; set; }
+        public bool HasNextScreen { get; set; }
+
     }
 }
