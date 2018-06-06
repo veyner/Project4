@@ -82,34 +82,41 @@ namespace TextQuest
                         {
                             Number=0,
                             Text="концовка",
+                            SelectionOption = new SelectionOptions[0]
                         }
                     }
                 }
             };
-            var CurrentArc = arcs[0];
-            CurrentArc.HasNextScreen = true;
-            while (CurrentArc.HasNextScreen == true)
+            var currentArc = arcs[0];
+            var currentScreen = currentArc.Screens[0];
+            while (true)
             {
-                if (CurrentArc.Screens.Length == 1)
+                // Рисуем скрин
+                Console.WriteLine("{0}", currentScreen.Text);
+                // Рисуем выборы
+                if (currentScreen.HasSelectionOption(currentScreen))
                 {
-                    CurrentArc.HasNextScreen = false;
+                    currentScreen.DrawOptions(currentScreen);
+                    var choice = int.Parse(Console.ReadLine()) - 1;
+                    currentArc = arcs[currentScreen.SelectionOption[choice].Destination];
+                    currentScreen = currentArc.Screens[0];
                 }
-                for (int i = 0; i < CurrentArc.Screens.Length; i++)
+                else
                 {
-                    Console.WriteLine("{0}", CurrentArc.Screens[i].Text);
-                    Console.ReadLine();
-                    if (CurrentArc.Screens[i].SelectionOption.Length != 0)
+                    if (currentArc.HasNextScreen(currentScreen))
                     {
-                        for (int j = 0; j < CurrentArc.Screens[i].SelectionOption.Length; j++)
-                        {
-                            Console.WriteLine("{0}", CurrentArc.Screens[i].SelectionOption[j].Text);
-                        }
-                        var choice = int.Parse(Console.ReadLine());
-                        CurrentArc = arcs[CurrentArc.Screens[i].SelectionOption[choice].Destination];
+                        // Далее...
+                        Console.WriteLine("Далее");
+                        Console.ReadLine();
+                        // Переходим на следующий скрин
+                        currentScreen = currentArc.Screens[currentScreen.Number + 1];
+                    }
+                    else
+                    {
+                        break;
                     }
                 }
             }
-            Console.WriteLine("{0}", CurrentArc.Screens[0].Text);
             Console.ReadLine();
         }
     }
