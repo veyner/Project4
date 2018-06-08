@@ -1,123 +1,128 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace TextQuest
 {
     internal class Game
     {
+        GameState _gameState = new GameState();
+        List<Arc> _questData = new List<Arc>();
+
         public void GameLoop()
         {
-            var arcs = new Arc[] {
-                new Arc
-                {
-                    ID=0,
-                    Screens=new Screen[]{
-                        new Screen
-                        {
-                            Number=0,
-                            Text="начало",
-                            SelectionOption = new SelectionOptions[0]
-                        },
-                        new Screen
-                        {
-                            Number=1,
-                            Text="вопрос",
-                            SelectionOption = new SelectionOptions[]{
-                                new SelectionOptions
-                                {
-                                    Text="вернуться в начало(Arc 0)",
-                                    Destination=0
-                                },
-                                new SelectionOptions
-                                {
-                                    Text="перейти к Arc 1",
-                                    Destination=1
-                                },
-                                new SelectionOptions
-                                {
-                                    Text="перейти к концовке (Arc 2)",
-                                    Destination=2
-                                },
-                            }
-                        }
-                    }
-                },
-                new Arc
-                {
-                    ID=1,
-                    Screens=new Screen[]{
-                        new Screen
-                        {
-                            Number=0,
-                            Text="основная часть",
-                            SelectionOption = new SelectionOptions[0]
-                        },
-                        new Screen
-                        {
-                            Number=1,
-                            Text="вопрос",
-                            SelectionOption = new SelectionOptions[]{
-                                new SelectionOptions
-                                {
-                                    Text="вернуться в начало (Arc 0)",
-                                    Destination=0
-                                },
-                                new SelectionOptions
-                                {
-                                    Text="перейти к концовке",
-                                    Destination=2
-                                }
-                            }
-                        }
-                    }
-                },
-                new Arc
-                {
-                    ID=2,
-                    Screens=new Screen[]{
-                        new Screen
-                        {
-                            Number=0,
-                            Text="концовка",
-                            SelectionOption = new SelectionOptions[0]
-                        }
-                    }
-                }
-            };
-            var currentArc = arcs[0];
-            var currentScreen = currentArc.Screens[0];
+            _questData = LoadQuestData();
+            _gameState = LoadGame();
+
+            var currentArc = _questData[_gameState.ArcID];
+            var currentScreen = currentArc.Screens[_gameState.ScreenNumber];
+
             while (true)
             {
+                // ВЫВОДИМ ВСЕ НА ЭКРАН
                 // Рисуем скрин
                 Console.WriteLine("{0}", currentScreen.Text);
-                // Рисуем выборы
+
+                // Если есть выбор - рисуем
                 if (currentScreen.HasSelectionOption(currentScreen))
                 {
                     currentScreen.DrawOptions(currentScreen);
-                    var choice = int.Parse(Console.ReadLine()) - 1;
-                    currentArc = arcs[currentScreen.SelectionOption[choice].Destination];
-                    currentScreen = currentArc.Screens[0];
                 }
                 else
                 {
                     if (currentArc.HasNextScreen(currentScreen))
                     {
-                        // Далее...
-                        Console.WriteLine("Далее");
-                        Console.ReadLine();
+                        Console.WriteLine("1. Далее...");
+                    }
+                }
+
+                // СЧИТЫВАЕМ ДЕЙСТВИЕ ПОЛЬЗОВАТЕЛЯ
+                // Считываем пользовательский ввод
+                var userInput = Console.ReadLine();
+                if (ProcessUserInput(userInput))
+                {
+                    continue;
+                }
+
+                // ОБНОВЛЯЕМ ИГРОВУЮ ЛОГИКУ
+                if (currentScreen.HasSelectionOption(currentScreen)) 
+                {
+                    var selectedOption = int.Parse(userInput) - 1;
+                    currentArc = _questData[currentScreen.SelectionOption[selectedOption].Destination];
+                    currentScreen = currentArc.Screens[0];
+                } 
+                else
+                {
+                    if (currentArc.HasNextScreen(currentScreen))
+                    {
                         // Переходим на следующий скрин
                         currentScreen = currentArc.Screens[currentScreen.Number + 1];
                     }
                     else
                     {
-                        break;
+                        Console.WriteLine("Для выхода нажмите любую клавишу");
+                        break; // Скрины кончились. Конец игры.
                     }
                 }
+
+                _gameState.ArcID = currentArc.ID;
+                _gameState.ScreenNumber = currentScreen.Number;
             }
             Console.ReadLine();
+        }
+        
+        public List<Arc> LoadQuestData()
+        {
+            // TODO: Реализовать пользовательский выбор квестового файла
+            // TODO: Проверить существование файла и не пустой ли он
+            using (var reader = new StreamReader("file.json"))
+            {
+                var json = reader.ReadToEnd();
+                return JsonConvert.DeserializeObject<List<Arc>>(json);
+            }
+        }
+
+        private GameState LoadGame()
+        {
+            // TODO: Проверить существование файла и не пустой ли он
+            // TODO: Вынести save.json либо в константы либо в properties приложения
+            using (var reader = new StreamReader(Properties.Settings.Default.PathToSaveFile))
+            {
+                var json = reader.ReadToEnd();
+                return JsonConvert.DeserializeObject<GameState>(json);
+            }
+        }
+
+        private void SaveGame(GameState gameState)
+        {
+            // TODO: Вынести save.json либо в константы либо в properties приложения
+            using (var writer = new StreamWriter(Properties.Settings.Default.PathToSaveFile))
+            {
+                var json = JsonConvert.SerializeObject(gameState);
+                writer.Write(json);
+            }
+        }
+
+        // Обработка пользовательского ввода (управление меню)
+        private bool ProcessUserInput(string userInput)
+        {
+            switch (userInput)
+            {
+                case "s":
+                    SaveGame(_gameState);
+                    break;
+                case "l":
+                    _gameState = LoadGame();
+                    break;
+                default:
+                    return false; // Ползьзователь ввел выбор
+            }
+            
+            return true; // Пользователь ввел команду меню
         }
     }
 }
