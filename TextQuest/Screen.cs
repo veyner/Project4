@@ -16,13 +16,16 @@ namespace TextQuest
         {
             return currentScreen.SelectionOption.Any();
         }
-        public void DrawOptions(Screen currentScreen)
+
+        public void DrawOptions(Screen currentScreen, int playerScore)
         {
             for (int j = 0; j < currentScreen.SelectionOption.Length; j++)
             {
-                Console.WriteLine("{0}", currentScreen.SelectionOption[j].Text);
+                if (playerScore >= currentScreen.SelectionOption[j].OpenScore)
+                {
+                    Console.WriteLine("{0}", currentScreen.SelectionOption[j].Text);
+                }
             }
         }
-
     }
 }

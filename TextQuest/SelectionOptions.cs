@@ -10,5 +10,7 @@ namespace TextQuest
     {
         public string Text { get; set; }
         public int Destination { get; set; }
+        public int Point { get; set; }
+        public int OpenScore { get; set; }
     }
 }

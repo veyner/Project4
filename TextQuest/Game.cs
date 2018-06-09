@@ -10,8 +10,8 @@ namespace TextQuest
 {
     internal class Game
     {
-        GameState _gameState = new GameState();
-        List<Arc> _questData = new List<Arc>();
+        private GameState _gameState = new GameState();
+        private List<Arc> _questData = new List<Arc>();
 
         public void GameLoop()
         {
@@ -20,7 +20,7 @@ namespace TextQuest
 
             var currentArc = _questData[_gameState.ArcID];
             var currentScreen = currentArc.Screens[_gameState.ScreenNumber];
-
+            var playerScore = 0;
             while (true)
             {
                 // ВЫВОДИМ ВСЕ НА ЭКРАН
@@ -30,7 +30,7 @@ namespace TextQuest
                 // Если есть выбор - рисуем
                 if (currentScreen.HasSelectionOption(currentScreen))
                 {
-                    currentScreen.DrawOptions(currentScreen);
+                    currentScreen.DrawOptions(currentScreen, playerScore);
                 }
                 else
                 {
@@ -49,12 +49,14 @@ namespace TextQuest
                 }
 
                 // ОБНОВЛЯЕМ ИГРОВУЮ ЛОГИКУ
-                if (currentScreen.HasSelectionOption(currentScreen)) 
+                if (currentScreen.HasSelectionOption(currentScreen))
                 {
                     var selectedOption = int.Parse(userInput) - 1;
+                    playerScore = playerScore + currentScreen.SelectionOption[selectedOption].Point;
+                    Console.WriteLine("Ваши набранные баллы - {0}", playerScore);
                     currentArc = _questData[currentScreen.SelectionOption[selectedOption].Destination];
                     currentScreen = currentArc.Screens[0];
-                } 
+                }
                 else
                 {
                     if (currentArc.HasNextScreen(currentScreen))
@@ -74,7 +76,7 @@ namespace TextQuest
             }
             Console.ReadLine();
         }
-        
+
         public List<Arc> LoadQuestData()
         {
             // TODO: Реализовать пользовательский выбор квестового файла
@@ -115,13 +117,15 @@ namespace TextQuest
                 case "s":
                     SaveGame(_gameState);
                     break;
+
                 case "l":
                     _gameState = LoadGame();
                     break;
+
                 default:
                     return false; // Ползьзователь ввел выбор
             }
-            
+
             return true; // Пользователь ввел команду меню
         }
     }
