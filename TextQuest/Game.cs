@@ -77,17 +77,6 @@ namespace TextQuest
             Console.ReadLine();
         }
 
-        public List<Arc> LoadQuestData()
-        {
-            // TODO: Реализовать пользовательский выбор квестового файла
-            // TODO: Проверить существование файла и не пустой ли он
-            using (var reader = new StreamReader("file.json"))
-            {
-                var json = reader.ReadToEnd();
-                return JsonConvert.DeserializeObject<List<Arc>>(json);
-            }
-        }
-
         private GameState LoadGame()
         {
             // TODO: Проверить существование файла и не пустой ли он

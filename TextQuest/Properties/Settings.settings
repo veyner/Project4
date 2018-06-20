@@ -5,5 +5,11 @@
     <Setting Name="PathToSaveFile" Type="System.String" Scope="User">
       <Value Profile="(Default)">save.json</Value>
     </Setting>
+    <Setting Name="PathToQuests" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Quests</Value>
+    </Setting>
+    <Setting Name="CurrentQuest" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
   </Settings>
 </SettingsFile>

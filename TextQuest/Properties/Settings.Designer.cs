@@ -34,5 +34,29 @@ namespace TextQuest.Properties {
                 this["PathToSaveFile"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Quests")]
+        public string PathToQuests {
+            get {
+                return ((string)(this["PathToQuests"]));
+            }
+            set {
+                this["PathToQuests"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string CurrentQuest {
+            get {
+                return ((string)(this["CurrentQuest"]));
+            }
+            set {
+                this["CurrentQuest"] = value;
+            }
+        }
     }
 }

@@ -10,6 +10,13 @@ namespace TextQuest
     {
         private static void Main(string[] args)
         {
+            var bootstraper = new Bootstraper(Properties.Settings.Default.PathToQuests);
+            bootstraper.Load();
+            if (!bootstraper.Quests.Any())
+            {
+                Console.WriteLine("Добавьте квесты в {0}", Properties.Settings.Default.PathToQuests);
+                return;
+            }
             new Game().GameLoop();
         }
     }
