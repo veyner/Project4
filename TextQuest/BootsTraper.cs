@@ -26,7 +26,7 @@ namespace TextQuest
         /// <summary>
         /// Проверка наличия папки и создание папки с квестами, считывание квестов
         /// </summary>
-        public void Load()
+        public void LoadQuests()
         {
             if (!Directory.Exists(_questDirectory))
             {

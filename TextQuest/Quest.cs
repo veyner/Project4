@@ -9,5 +9,6 @@ namespace TextQuest
     internal class Quest
     {
         public string Name { get; set; }
+        public Arc[] Arcs { get; set; }
     }
 }

@@ -25,13 +25,13 @@ namespace TextQuest.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("save.json")]
-        public string PathToSaveFile {
+        [global::System.Configuration.DefaultSettingValueAttribute("Saves")]
+        public string PathToSaveFiles {
             get {
-                return ((string)(this["PathToSaveFile"]));
+                return ((string)(this["PathToSaveFiles"]));
             }
             set {
-                this["PathToSaveFile"] = value;
+                this["PathToSaveFiles"] = value;
             }
         }
         

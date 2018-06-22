@@ -10,14 +10,8 @@ namespace TextQuest
 {
     internal class Game
     {
-        private GameState _gameState = new GameState();
-        private List<Arc> _questData = new List<Arc>();
-
         public void GameLoop()
         {
-            _questData = LoadQuestData();
-            _gameState = LoadGame();
-
             var currentArc = _questData[_gameState.ArcID];
             var currentScreen = currentArc.Screens[_gameState.ScreenNumber];
             var playerScore = 0;
@@ -75,27 +69,6 @@ namespace TextQuest
                 _gameState.ScreenNumber = currentScreen.Number;
             }
             Console.ReadLine();
-        }
-
-        private GameState LoadGame()
-        {
-            // TODO: Проверить существование файла и не пустой ли он
-            // TODO: Вынести save.json либо в константы либо в properties приложения
-            using (var reader = new StreamReader(Properties.Settings.Default.PathToSaveFile))
-            {
-                var json = reader.ReadToEnd();
-                return JsonConvert.DeserializeObject<GameState>(json);
-            }
-        }
-
-        private void SaveGame(GameState gameState)
-        {
-            // TODO: Вынести save.json либо в константы либо в properties приложения
-            using (var writer = new StreamWriter(Properties.Settings.Default.PathToSaveFile))
-            {
-                var json = JsonConvert.SerializeObject(gameState);
-                writer.Write(json);
-            }
         }
 
         // Обработка пользовательского ввода (управление меню)
