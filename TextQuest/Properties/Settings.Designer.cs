@@ -25,18 +25,6 @@ namespace TextQuest.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Saves")]
-        public string PathToSaveFiles {
-            get {
-                return ((string)(this["PathToSaveFiles"]));
-            }
-            set {
-                this["PathToSaveFiles"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("Quests")]
         public string PathToQuests {
             get {
@@ -56,6 +44,18 @@ namespace TextQuest.Properties {
             }
             set {
                 this["CurrentQuest"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Saves")]
+        public string PathToSaves {
+            get {
+                return ((string)(this["PathToSaves"]));
+            }
+            set {
+                this["PathToSaves"] = value;
             }
         }
     }

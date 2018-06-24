@@ -17,6 +17,7 @@ namespace TextQuest
                 Console.WriteLine("Добавьте квесты в {0}", Properties.Settings.Default.PathToQuests);
                 return;
             }
+            var menu = new Menu(bootstraper.Quests);
         }
     }
 }

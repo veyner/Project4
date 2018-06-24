@@ -10,10 +10,19 @@ namespace TextQuest
 {
     internal class Game
     {
-        public void GameLoop()
+        private Quest _quest;
+        private Menu _menu;
+
+        public Game(Quest quest, Menu menu)
         {
-            var currentArc = _questData[_gameState.ArcID];
-            var currentScreen = currentArc.Screens[_gameState.ScreenNumber];
+            _quest = quest;
+            _menu = menu;
+        }
+
+        public void GameLoop(int arcNumber, int screenNumber)
+        {
+            var currentArc = _quest.Arcs[arcNumber];
+            var currentScreen = currentArc.Screens[screenNumber];
             var playerScore = 0;
             while (true)
             {
@@ -37,10 +46,11 @@ namespace TextQuest
                 // СЧИТЫВАЕМ ДЕЙСТВИЕ ПОЛЬЗОВАТЕЛЯ
                 // Считываем пользовательский ввод
                 var userInput = Console.ReadLine();
-                if (ProcessUserInput(userInput))
-                {
-                    continue;
-                }
+                //запись сохранения
+                var _gamestat = new GameState();
+                _gamestat.ArcID = currentArc.ID;
+                _gamestat.ScreenNumber = currentScreen.Number;
+                _menu.SaveMenu(_gamestat);
 
                 // ОБНОВЛЯЕМ ИГРОВУЮ ЛОГИКУ
                 if (currentScreen.HasSelectionOption(currentScreen))
@@ -48,7 +58,7 @@ namespace TextQuest
                     var selectedOption = int.Parse(userInput) - 1;
                     playerScore = playerScore + currentScreen.SelectionOption[selectedOption].Point;
                     Console.WriteLine("Ваши набранные баллы - {0}", playerScore);
-                    currentArc = _questData[currentScreen.SelectionOption[selectedOption].Destination];
+                    currentArc = _quest.Arcs[currentScreen.SelectionOption[selectedOption].Destination];
                     currentScreen = currentArc.Screens[0];
                 }
                 else
@@ -65,30 +75,10 @@ namespace TextQuest
                     }
                 }
 
-                _gameState.ArcID = currentArc.ID;
-                _gameState.ScreenNumber = currentScreen.Number;
+                arcNumber = currentArc.ID;
+                screenNumber = currentScreen.Number;
             }
             Console.ReadLine();
-        }
-
-        // Обработка пользовательского ввода (управление меню)
-        private bool ProcessUserInput(string userInput)
-        {
-            switch (userInput)
-            {
-                case "s":
-                    SaveGame(_gameState);
-                    break;
-
-                case "l":
-                    _gameState = LoadGame();
-                    break;
-
-                default:
-                    return false; // Ползьзователь ввел выбор
-            }
-
-            return true; // Пользователь ввел команду меню
         }
     }
 }

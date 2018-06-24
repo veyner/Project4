@@ -2,14 +2,14 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="TextQuest.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
-    <Setting Name="PathToSaveFile" Type="System.String" Scope="User">
-      <Value Profile="(Default)">save.json</Value>
-    </Setting>
     <Setting Name="PathToQuests" Type="System.String" Scope="User">
       <Value Profile="(Default)">Quests</Value>
     </Setting>
     <Setting Name="CurrentQuest" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="PathToSaves" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Saves</Value>
     </Setting>
   </Settings>
 </SettingsFile>
