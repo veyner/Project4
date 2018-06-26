@@ -11,12 +11,10 @@ namespace TextQuest
     internal class Game
     {
         private Quest _quest;
-        private Menu _menu;
 
-        public Game(Quest quest, Menu menu)
+        public Game(Quest quest)
         {
             _quest = quest;
-            _menu = menu;
         }
 
         public void GameLoop(int arcNumber, int screenNumber)
@@ -26,6 +24,7 @@ namespace TextQuest
             var playerScore = 0;
             while (true)
             {
+                Console.Clear();
                 // ВЫВОДИМ ВСЕ НА ЭКРАН
                 // Рисуем скрин
                 Console.WriteLine("{0}", currentScreen.Text);
@@ -40,17 +39,25 @@ namespace TextQuest
                     if (currentArc.HasNextScreen(currentScreen))
                     {
                         Console.WriteLine("1. Далее...");
+                        Console.WriteLine("Введите S для меню сохранения");
                     }
                 }
 
                 // СЧИТЫВАЕМ ДЕЙСТВИЕ ПОЛЬЗОВАТЕЛЯ
                 // Считываем пользовательский ввод
                 var userInput = Console.ReadLine();
+
                 //запись сохранения
-                var _gamestat = new GameState();
-                _gamestat.ArcID = currentArc.ID;
-                _gamestat.ScreenNumber = currentScreen.Number;
-                _menu.SaveMenu(_gamestat);
+                if (userInput == "S")
+                {
+                    var _gamestat = new GameState();
+                    _gamestat.QuestName = _quest.Name;
+                    _gamestat.ArcID = currentArc.ID;
+                    _gamestat.ScreenNumber = currentScreen.Number;
+
+                    new SaveOption().SaveMenu(_gamestat);
+                    continue;
+                }
 
                 // ОБНОВЛЯЕМ ИГРОВУЮ ЛОГИКУ
                 if (currentScreen.HasSelectionOption(currentScreen))
@@ -70,7 +77,7 @@ namespace TextQuest
                     }
                     else
                     {
-                        Console.WriteLine("Для выхода нажмите любую клавишу");
+                        Console.WriteLine("Для выхода в главное меню нажмите любую клавишу");
                         break; // Скрины кончились. Конец игры.
                     }
                 }

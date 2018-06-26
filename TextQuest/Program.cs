@@ -15,9 +15,11 @@ namespace TextQuest
             if (!bootstraper.Quests.Any())
             {
                 Console.WriteLine("Добавьте квесты в {0}", Properties.Settings.Default.PathToQuests);
+                Console.ReadLine();
                 return;
             }
             var menu = new Menu(bootstraper.Quests);
+            menu.UserMenu();
         }
     }
 }

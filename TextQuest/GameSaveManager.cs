@@ -32,7 +32,7 @@ namespace TextQuest
             var saveFiles = Directory.GetFiles(PathToTheSaves);
             foreach (var save in saveFiles)
             {
-                var i = LoadSave(save);
+                var i = LoadSave(Path.GetFileName(save));
                 saveList.Add(i);
             }
             return saveList;
@@ -59,10 +59,11 @@ namespace TextQuest
         /// Сохранение игры
         /// </summary>
         /// <param name="gameState">на какой арке и на каком экране игра сохранена</param>
-        public void SaveGame(string saveName, GameState gameState)
+        public void SaveGame(GameState gameState)
         {
+            var fullSavePath = Path.Combine(Properties.Settings.Default.PathToSaves, gameState.Name + ".json");
             // TODO: Вынести save.json либо в константы либо в properties приложения
-            using (var writer = new StreamWriter(Properties.Settings.Default.PathToSaves))
+            using (var writer = new StreamWriter(fullSavePath))
             {
                 var json = JsonConvert.SerializeObject(gameState);
                 writer.Write(json);

@@ -14,47 +14,51 @@ namespace TextQuest
         // загружать в меню список квестов и отображать выбранный квест
         public Menu(List<Quest> quests)
         {
-            List<Quest> _quests = quests;
+            _quests = quests;
         }
 
         public void UserMenu()
         {
-            var questName = _quests[0].Name;
-            Console.WriteLine("{0}", questName);
-            Console.WriteLine("Начать новую игру - нажмите 1");
-            Console.WriteLine("Загрузить сохраненную игру - нажмите 2");
-            Console.WriteLine("Сменить квест - нажмите 3");
-            Console.WriteLine("Выход - нажмите 4");
-        }
+            var currentQuest = _quests[0];
+            while (true)
+            {
+                Console.Clear();
+                Console.WriteLine("{0}", currentQuest.Name);
+                Console.WriteLine("Начать новую игру - нажмите 1");
+                Console.WriteLine("Загрузить сохраненную игру - нажмите 2");
+                Console.WriteLine("Сменить квест - нажмите 3");
+                Console.WriteLine("Выход - нажмите 4");
 
-        public void ChoiceMenu()
-        {
-            var choice = int.Parse(Console.ReadLine());
-            if (choice == 1)
-            {
-                new Game().GameLoop(0, 0);
-            }
-            if (choice == 2)
-            {
-                var saveList = new GameSaveManager().GetSaves(Properties.Settings.Default.PathToSaves);
-                Console.WriteLine("Выберите сохранение");
-                foreach (var save in saveList)
+                var choice = int.Parse(Console.ReadLine());
+                if (choice == 1)
                 {
-                    Console.WriteLine("{0}", save.Name);
+                    new Game(currentQuest).GameLoop(0, 0);
                 }
-                var point = int.Parse(Console.ReadLine());
-                new Game().GameLoop(saveList[point].ArcID, saveList[point].ScreenNumber);
+                if (choice == 2)
+                {
+                    var saveList = new GameSaveManager().GetSaves(Properties.Settings.Default.PathToSaves);
+                    Console.WriteLine("Выберите сохранение");
+                    foreach (var save in saveList)
+                    {
+                        Console.WriteLine("{0}", save.Name);
+                    }
+                    var point = int.Parse(Console.ReadLine()) - 1;
+                    new Game(currentQuest).GameLoop(saveList[point].ArcID, saveList[point].ScreenNumber);
+                }
+                if (choice == 3)
+                {
+                    foreach (var quest in _quests)
+                    {
+                        Console.WriteLine("{0}", quest.Name);
+                    }
+                    var point = int.Parse(Console.ReadLine()) - 1;
+                    currentQuest = _quests[point];
+                }
+                if (choice == 4)
+                {
+                    break;
+                }
             }
-            if (choice == 3)
-            {
-            }
-        }
-
-        public void SaveMenu(GameState gameState)
-        {
-            Console.WriteLine("Введите название сохранения");
-            var saveName = Console.ReadLine();
-            new GameSaveManager().SaveGame(saveName, gameState);
         }
     }
 }
