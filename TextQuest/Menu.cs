@@ -23,11 +23,12 @@ namespace TextQuest
             while (true)
             {
                 Console.Clear();
-                Console.WriteLine("{0}", currentQuest.Name);
-                Console.WriteLine("Начать новую игру - нажмите 1");
-                Console.WriteLine("Загрузить сохраненную игру - нажмите 2");
-                Console.WriteLine("Сменить квест - нажмите 3");
-                Console.WriteLine("Выход - нажмите 4");
+                Console.WriteLine("Добро пожаловать в квест - {0}", currentQuest.Name);
+                Console.WriteLine("Выберите действие:");
+                Console.WriteLine("1. Начать новую игру");
+                Console.WriteLine("2. Загрузить сохраненную игру");
+                Console.WriteLine("3. Сменить квест");
+                Console.WriteLine("0. Выход");
 
                 var choice = int.Parse(Console.ReadLine());
                 if (choice == 1)
@@ -36,21 +37,35 @@ namespace TextQuest
                 }
                 if (choice == 2)
                 {
+                    Console.Clear();
                     var saveList = new GameSaveManager().GetSaves(Properties.Settings.Default.PathToSaves);
-                    Console.WriteLine("Выберите сохранение");
+                    var currentQuestSaves = new List<GameState>();
                     foreach (var save in saveList)
                     {
-                        Console.WriteLine("{0}", save.Name);
+                        if (currentQuest.Name == save.Name)
+                        {
+                            currentQuestSaves.Add(save);
+                        }
                     }
+
+                    Console.WriteLine("Выберите сохранение:");
+                    for (var i = 0; i < currentQuestSaves.Count; i++)
+                    {
+                        Console.WriteLine("{0}. {1}", i + 1, currentQuestSaves[i].Name);
+                    }
+
                     var point = int.Parse(Console.ReadLine()) - 1;
                     new Game(currentQuest).GameLoop(saveList[point].ArcID, saveList[point].ScreenNumber);
                 }
                 if (choice == 3)
                 {
-                    foreach (var quest in _quests)
+                    Console.Clear();
+                    Console.WriteLine("Выберите квест:");
+                    for (var i = 0; i < _quests.Count; i++)
                     {
-                        Console.WriteLine("{0}", quest.Name);
+                        Console.WriteLine("{0}. {1}", i + 1, _quests[i].Name);
                     }
+
                     var point = int.Parse(Console.ReadLine()) - 1;
                     currentQuest = _quests[point];
                 }

@@ -23,9 +23,10 @@ namespace TextQuest
             {
                 if (playerScore >= currentScreen.SelectionOption[j].OpenScore)
                 {
-                    Console.WriteLine("{0}", currentScreen.SelectionOption[j].Text);
+                    Console.WriteLine("{0}. {1}", j + 1, currentScreen.SelectionOption[j].Text);
                 }
             }
+            Console.WriteLine("0 - Выход в главное меню");
         }
     }
 }

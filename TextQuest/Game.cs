@@ -28,6 +28,7 @@ namespace TextQuest
                 // ВЫВОДИМ ВСЕ НА ЭКРАН
                 // Рисуем скрин
                 Console.WriteLine("{0}", currentScreen.Text);
+                Console.WriteLine(" ");
 
                 // Если есть выбор - рисуем
                 if (currentScreen.HasSelectionOption(currentScreen))
@@ -38,8 +39,11 @@ namespace TextQuest
                 {
                     if (currentArc.HasNextScreen(currentScreen))
                     {
-                        Console.WriteLine("1. Далее...");
-                        Console.WriteLine("Введите S для меню сохранения");
+                        Console.WriteLine(" ");
+                        Console.WriteLine("Выберите действие:");
+                        Console.WriteLine("1. Далее");
+                        Console.WriteLine("S - Меню сохранения");
+                        Console.WriteLine("0 - Выход в главное меню");
                     }
                 }
 
@@ -57,6 +61,10 @@ namespace TextQuest
 
                     new SaveOption().SaveMenu(_gamestat);
                     continue;
+                }
+                if (userInput == "0")
+                {
+                    break;
                 }
 
                 // ОБНОВЛЯЕМ ИГРОВУЮ ЛОГИКУ
