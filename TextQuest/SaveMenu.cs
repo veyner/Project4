@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace TextQuest
 {
-    internal class SaveOption
+    internal class SaveMenu
     {
-        public void SaveMenu(GameState gameState)
+        public void ShowMenu(GameState gameState)
         {
             Console.WriteLine("Введите название сохранения");
             gameState.Name = Console.ReadLine();

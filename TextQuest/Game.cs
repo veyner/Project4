@@ -42,6 +42,7 @@ namespace TextQuest
                         Console.WriteLine(" ");
                         Console.WriteLine("Выберите действие:");
                         Console.WriteLine("1. Далее");
+                        Console.WriteLine("Sk. Пропустить до выбора");
                         Console.WriteLine("S. Меню сохранения");
                         Console.WriteLine("0. Выход в главное меню");
                     }
@@ -52,6 +53,21 @@ namespace TextQuest
 
                 var userInput = Console.ReadLine();
 
+                if (userInput == "Sk")
+                {
+                    for (var i = currentScreen.Number; i < currentArc.Screens.Length; i++)
+                    {
+                        if (!currentScreen.HasSelectionOption(currentScreen) && currentArc.HasNextScreen(currentScreen))
+                        {
+                            currentScreen = currentArc.Screens[currentScreen.Number + 1];
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    }
+                    continue;
+                }
                 //запись сохранения
                 if (userInput == "S")
                 {
@@ -60,7 +76,7 @@ namespace TextQuest
                     _gamestat.ArcID = currentArc.ID;
                     _gamestat.ScreenNumber = currentScreen.Number;
 
-                    new SaveOption().SaveMenu(_gamestat);
+                    new SaveMenu().ShowMenu(_gamestat);
                     continue;
                 }
                 if (userInput == "0")
