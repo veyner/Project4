@@ -42,13 +42,14 @@ namespace TextQuest
                         Console.WriteLine(" ");
                         Console.WriteLine("Выберите действие:");
                         Console.WriteLine("1. Далее");
-                        Console.WriteLine("S - Меню сохранения");
-                        Console.WriteLine("0 - Выход в главное меню");
+                        Console.WriteLine("S. Меню сохранения");
+                        Console.WriteLine("0. Выход в главное меню");
                     }
                 }
 
                 // СЧИТЫВАЕМ ДЕЙСТВИЕ ПОЛЬЗОВАТЕЛЯ
                 // Считываем пользовательский ввод
+
                 var userInput = Console.ReadLine();
 
                 //запись сохранения
@@ -73,6 +74,7 @@ namespace TextQuest
                     var selectedOption = int.Parse(userInput) - 1;
                     playerScore = playerScore + currentScreen.SelectionOption[selectedOption].Point;
                     Console.WriteLine("Ваши набранные баллы - {0}", playerScore);
+                    Console.ReadLine();
                     currentArc = _quest.Arcs[currentScreen.SelectionOption[selectedOption].Destination];
                     currentScreen = currentArc.Screens[0];
                 }
@@ -86,6 +88,7 @@ namespace TextQuest
                     else
                     {
                         Console.WriteLine("Для выхода в главное меню нажмите любую клавишу");
+                        Console.ReadLine();
                         break; // Скрины кончились. Конец игры.
                     }
                 }
@@ -93,7 +96,6 @@ namespace TextQuest
                 arcNumber = currentArc.ID;
                 screenNumber = currentScreen.Number;
             }
-            Console.ReadLine();
         }
     }
 }

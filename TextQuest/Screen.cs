@@ -26,6 +26,7 @@ namespace TextQuest
                     Console.WriteLine("{0}. {1}", j + 1, currentScreen.SelectionOption[j].Text);
                 }
             }
+            Console.WriteLine("S. Меню сохранения");
             Console.WriteLine("0 - Выход в главное меню");
         }
     }

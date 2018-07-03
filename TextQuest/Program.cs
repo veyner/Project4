@@ -19,7 +19,7 @@ namespace TextQuest
                 return;
             }
             var menu = new Menu(bootstraper.Quests);
-            menu.UserMenu();
+            menu.ShowMenu();
         }
     }
 }

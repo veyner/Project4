@@ -17,10 +17,11 @@ namespace TextQuest
             _quests = quests;
         }
 
-        public void UserMenu()
+        public void ShowMenu()
         {
             var currentQuest = _quests[0];
-            while (true)
+            var exit = true;
+            while (exit)
             {
                 Console.Clear();
                 Console.WriteLine("Добро пожаловать в квест - {0}", currentQuest.Name);
@@ -30,50 +31,70 @@ namespace TextQuest
                 Console.WriteLine("3. Сменить квест");
                 Console.WriteLine("0. Выход");
 
-                var choice = int.Parse(Console.ReadLine());
-                if (choice == 1)
+                var choice = Console.ReadLine();
+                switch (choice)
                 {
-                    new Game(currentQuest).GameLoop(0, 0);
-                }
-                if (choice == 2)
-                {
-                    Console.Clear();
-                    var saveList = new GameSaveManager().GetSaves(Properties.Settings.Default.PathToSaves);
-                    var currentQuestSaves = new List<GameState>();
-                    foreach (var save in saveList)
-                    {
-                        if (currentQuest.Name == save.Name)
-                        {
-                            currentQuestSaves.Add(save);
-                        }
-                    }
+                    case "1":
+                        new Game(currentQuest).GameLoop(0, 0);
+                        break;
 
-                    Console.WriteLine("Выберите сохранение:");
-                    for (var i = 0; i < currentQuestSaves.Count; i++)
-                    {
-                        Console.WriteLine("{0}. {1}", i + 1, currentQuestSaves[i].Name);
-                    }
+                    case "2":
+                        LoadSaveMenu(currentQuest);
+                        break;
 
-                    var point = int.Parse(Console.ReadLine()) - 1;
-                    new Game(currentQuest).GameLoop(saveList[point].ArcID, saveList[point].ScreenNumber);
-                }
-                if (choice == 3)
-                {
-                    Console.Clear();
-                    Console.WriteLine("Выберите квест:");
-                    for (var i = 0; i < _quests.Count; i++)
-                    {
-                        Console.WriteLine("{0}. {1}", i + 1, _quests[i].Name);
-                    }
+                    case "3":
+                        ChangeQuestMenu(currentQuest);
+                        break;
 
-                    var point = int.Parse(Console.ReadLine()) - 1;
-                    currentQuest = _quests[point];
-                }
-                if (choice == 4)
-                {
-                    break;
+                    case "0":
+                        exit = false;
+                        break;
                 }
             }
+        }
+
+        private void LoadSaveMenu(Quest currentQuest)
+        {
+            Console.Clear();
+            var saveList = new GameSaveManager().GetSaves(Properties.Settings.Default.PathToSaves);
+            var currentQuestSaves = new List<GameState>();
+            foreach (var save in saveList)
+            {
+                if (currentQuest.Name == save.QuestName)
+                {
+                    currentQuestSaves.Add(save);
+                }
+            }
+
+            Console.WriteLine("Выберите сохранение:");
+            for (var i = 0; i < currentQuestSaves.Count; i++)
+            {
+                Console.WriteLine("{0}. {1}", i + 1, currentQuestSaves[i].Name);
+            }
+            Console.WriteLine("0. Вернуться в главное меню");
+            var point = int.Parse(Console.ReadLine()) - 1;
+            if (point == -1)
+            {
+                return;
+            }
+            new Game(currentQuest).GameLoop(saveList[point].ArcID, saveList[point].ScreenNumber);
+        }
+
+        private void ChangeQuestMenu(Quest currentQuest)
+        {
+            Console.Clear();
+            Console.WriteLine("Выберите квест:");
+            for (var i = 0; i < _quests.Count; i++)
+            {
+                Console.WriteLine("{0}. {1}", i + 1, _quests[i].Name);
+            }
+            Console.WriteLine("0. Вернуться в главное меню");
+            var point = int.Parse(Console.ReadLine()) - 1;
+            if (point == -1)
+            {
+                return;
+            }
+            currentQuest = _quests[point];
         }
     }
 }
