@@ -10,95 +10,118 @@ namespace XnO
     {
         public void PlayGame()
         {
-            var numberField = new char[9];
-            var currentSymbol = 'X';
+            var gameField = new char[9];
+            var currentPlayer = 'X';
             while (true)
             {
                 Console.Clear();
-                Console.WriteLine("{0}{1}{2}", numberField[0], numberField[1], numberField[2]);
-                Console.WriteLine("{0}{1}{2}", numberField[3], numberField[4], numberField[5]);
-                Console.WriteLine("{0}{1}{2}", numberField[6], numberField[7], numberField[8]);
-                if (WinGame(numberField, 'X'))
+                Console.WriteLine(" ");
+                Console.WriteLine(" {0} | {1} | {2} ", gameField[0], gameField[1], gameField[2]);
+                Console.WriteLine(" ---------");
+                Console.WriteLine(" {0} | {1} | {2} ", gameField[3], gameField[4], gameField[5]);
+                Console.WriteLine(" ---------");
+                Console.WriteLine(" {0} | {1} | {2} ", gameField[6], gameField[7], gameField[8]);
+                Console.WriteLine(" ");
+
+                if (CheckGameEnd(gameField, 'X'))
                 {
                     Console.WriteLine("Выиграл X");
-                    break;
+                    Console.WriteLine("0. Вернуться в главное меню");
+                    var backTomenu = int.Parse(Console.ReadLine());
+                    if (backTomenu == 0)
+                    {
+                        break;
+                    }
                 }
-                if (WinGame(numberField, 'O'))
+                if (CheckGameEnd(gameField, 'O'))
                 {
                     Console.WriteLine("Выиграл O");
-                    break;
+                    Console.WriteLine("0. Вернуться в главное меню");
+                    var backTomenu = int.Parse(Console.ReadLine());
+                    if (backTomenu == 0)
+                    {
+                        break;
+                    }
                 }
                 Console.WriteLine("Введите номер ячейки");
-                var point = int.Parse(Console.ReadLine()) - 1;
-                numberField[point] = currentSymbol;
+                var userAnswer = Console.ReadLine();
+                var cell = 0;
+                if (!int.TryParse(userAnswer, out cell) || cell > 9)
+                {
+                    Console.WriteLine("Вы ввели некорректный номер ячейки. Попробуйте еще раз");
+                    Console.ReadLine();
+                    continue;
+                }
 
-                if (currentSymbol == 'X')
+                if (gameField[cell - 1] == 'X' || gameField[cell - 1] == 'O')
                 {
-                    currentSymbol = 'O';
+                    Console.WriteLine("Ячейка занята. Выберите другую");
+                    Console.ReadLine();
+                    continue;
                 }
-                else
-                {
-                    currentSymbol = 'X';
-                }
+
+                gameField[cell - 1] = currentPlayer;
+
+                currentPlayer = currentPlayer == 'X' ? 'O' : 'X';
             }
-            Console.ReadLine();
         }
 
-        private bool WinGame(char[] numberField, char currentSymbol)
+        private bool CheckGameEnd(char[] gameField, char currentPlayer)
         {
-            var t = false;
+            var result = false;
             var winString = new char[3];
+            //k - номера элемента массива winString
+            //Запись столбца gameField в новый массив для проверки выигрыша
             for (var i = 0; i < 3; i++)
             {
-                var k = 0;
-                for (var j = 0; j < numberField.Length; j += 3)
+                for (int j = 0, k = 0; j < gameField.Length; j += 3, k++)
                 {
-                    winString[k] = numberField[j];
-                    k++;
+                    winString[k] = gameField[j];
                 }
-                if (winString.All(T => T == currentSymbol))
+                //проверка выигрыша
+                if (winString.All(T => T == currentPlayer))
                 {
-                    t = true;
+                    result = true;
                     break;
                 }
             }
-            for (var j = 0; j < numberField.Length; j += 3)
+            //Запись строки gameField в новый массив для проверки выигрыша
+            for (var j = 0; j < gameField.Length; j += 3)
             {
-                var k = 0;
-                for (var i = 0; i < 3; i++)
+                for (int i = 0, k = 0; i < 3; i++, k++)
                 {
-                    winString[k] = numberField[i];
-                    k++;
+                    winString[k] = gameField[i];
                 }
-                if (winString.All(T => T == currentSymbol))
+                if (winString.All(T => T == currentPlayer))
                 {
-                    t = true;
+                    result = true;
                     break;
                 }
             }
-            var l = 0;
-            for (var i = 0; i < numberField.Length; i += 4)
+            //Проверка выигрыша по диагоналям
+
+            Array.Clear(winString, 0, winString.Length);
+            for (int i = 0, k = 0; i < gameField.Length; i += 4, k++)
             {
-                winString[l] = numberField[i];
-                l++;
-                if (winString.All(T => T == currentSymbol))
+                winString[k] = gameField[i];
+                if (winString.All(T => T == currentPlayer))
                 {
-                    t = true;
+                    result = true;
                     break;
                 }
             }
-            var p = 0;
-            for (var i = 2; i < 7; i += 2)
+
+            Array.Clear(winString, 0, winString.Length);
+            for (int i = 2, k = 0; i < 7; i += 2, k++)
             {
-                winString[p] = numberField[i];
-                p++;
-                if (winString.All(T => T == currentSymbol))
+                winString[k] = gameField[i];
+                if (winString.All(T => T == currentPlayer))
                 {
-                    t = true;
+                    result = true;
                     break;
                 }
             }
-            return t;
+            return result;
         }
     }
 }

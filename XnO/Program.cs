@@ -10,7 +10,7 @@ namespace XnO
     {
         private static void Main(string[] args)
         {
-            new Game().PlayGame();
+            new Menu().ShowMenu();
         }
     }
 }
