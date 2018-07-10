@@ -24,10 +24,11 @@ namespace XnO
                 switch (choice)
                 {
                     case "1":
-                        new Game().PlayGame();
+                        new Game().PlayGame(false);
                         break;
 
                     case "2":
+                        new Game().PlayGame(true);
                         break;
 
                     case "0":

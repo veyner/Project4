@@ -8,10 +8,13 @@ namespace XnO
 {
     internal class Game
     {
-        public void PlayGame()
+        public void PlayGame(bool isSinglePlayer)
         {
+            var random = new Random();
             var gameField = new char[9];
+            var botPlayer = random.Next(0, 2) == 1 ? 'X' : 'O';
             var currentPlayer = 'X';
+
             while (true)
             {
                 Console.Clear();
@@ -44,7 +47,15 @@ namespace XnO
                     }
                 }
                 Console.WriteLine("Введите номер ячейки");
-                var userAnswer = Console.ReadLine();
+                var userAnswer = "0";
+                if (currentPlayer == botPlayer && isSinglePlayer)
+                {
+                    userAnswer = random.Next(1, 10).ToString();
+                }
+                else
+                {
+                    userAnswer = Console.ReadLine();
+                }
                 var cell = 0;
                 if (!int.TryParse(userAnswer, out cell) || cell > 9)
                 {
@@ -56,7 +67,10 @@ namespace XnO
                 if (gameField[cell - 1] == 'X' || gameField[cell - 1] == 'O')
                 {
                     Console.WriteLine("Ячейка занята. Выберите другую");
-                    Console.ReadLine();
+                    if (!isSinglePlayer || currentPlayer != botPlayer)
+                    {
+                        Console.ReadLine();
+                    }
                     continue;
                 }
 
